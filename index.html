@@ -3,489 +3,389 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chúc Mừng Ngày 8/3 - E-sky</title>
+    <title>E-sky 8/3 - Phái Đẹp Tỏa Sáng</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
-        body {
-            font-family: 'Times New Roman', Times, serif;
-            background: linear-gradient(135deg, #fff0f3 0%, #ffdde1 100%);
-            min-height: 100vh;
-            margin: 0;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        :root {
+            --primary-pink: #ff85a1;
+            --deep-pink: #f72585;
+            --soft-pink: #fbc4ab;
         }
 
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            background: #fff5f7;
+            margin: 0;
+            overflow: hidden;
+            min-height: 100vh;
+        }
+
+        /* Nền Gradient Sang Trọng */
+        .bg-luxury {
+            background: linear-gradient(135deg, #fff5f7 0%, #ffe4e9 50%, #fbc4ab 100%);
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+        }
+
+        /* Hiệu ứng cánh hoa đào rơi */
+        .petal {
+            position: absolute;
+            background-color: #ffb7c5;
+            border-radius: 150% 0 150% 0;
+            opacity: 0.8;
+            pointer-events: none;
+            z-index: 5;
+            box-shadow: 0 0 5px rgba(255, 183, 197, 0.5);
+        }
+
+        /* Màn hình khởi đầu */
         #gift-scene {
             position: fixed;
             inset: 0;
-            background: radial-gradient(circle, #ff8fa3 0%, #ff4d6d 100%);
-            z-index: 100;
+            background: radial-gradient(circle, #ffb3c1 0%, #ff4d6d 100%);
+            z-index: 1000;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            transition: all 1s cubic-bezier(0.7, 0, 0.3, 1);
+            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .gift-box {
-            font-size: 100px;
+            font-size: 150px;
             cursor: pointer;
-            transition: transform 0.3s;
-            animation: bounceGift 2s infinite;
+            filter: drop-shadow(0 20px 40px rgba(0,0,0,0.3));
         }
 
-        @keyframes bounceGift {
-            0%, 20%, 50%, 80%, 100% {transform: translateY(0) rotate(0);}
-            40% {transform: translateY(-30px) rotate(10deg);}
-            60% {transform: translateY(-15px) rotate(-10deg);}
-        }
-
-        #main-content {
-            opacity: 0;
-            transform: scale(0.8);
-            transition: all 1s ease-out;
-            display: none;
-            width: 100%;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .fade-in-text {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.8s ease-out;
-        }
-
-        .fade-in-text.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
+        /* Card Giao diện chính */
         .glass-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border: 2px solid #ffcad4;
-            box-shadow: 0 20px 60px rgba(255, 154, 162, 0.3);
-            border-radius: 40px;
-            padding: 2.5rem 1.5rem;
-            max-width: 600px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(15px);
+            border-radius: 3rem;
+            padding: 3rem 2rem;
+            max-width: 800px;
             width: 90%;
-            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(255, 77, 109, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.5);
             position: relative;
         }
 
-        .btn-gift {
-            background: linear-gradient(to right, #ff4d6d, #ff758f);
+        .btn-luxury {
+            background: linear-gradient(45deg, #f72585, #ff4d6d);
             color: white;
-            padding: 14px 28px;
-            border-radius: 30px;
-            font-weight: bold;
-            box-shadow: 0 5px 20px rgba(255, 77, 109, 0.4);
-            cursor: pointer;
-            transition: all 0.3s;
-            display: inline-block;
-            margin-top: 20px;
-            border: none;
+            padding: 1.25rem 3.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            box-shadow: 0 15px 30px rgba(247, 37, 133, 0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
         }
 
-        #gift-modal, #camera-modal {
+        .btn-luxury:hover {
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 20px 40px rgba(247, 37, 133, 0.4);
+        }
+
+        .overlay-modal {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.85);
-            z-index: 200;
+            background: rgba(255, 192, 203, 0.4);
+            z-index: 500;
             align-items: center;
             justify-content: center;
-            padding: 10px;
+            backdrop-filter: blur(12px);
         }
 
-        .modal-content {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 30px;
-            text-align: center;
-            max-width: 550px;
-            width: 100%;
-            position: relative;
-            animation: popUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        @keyframes popUp {
-            from { transform: scale(0.5); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-
-        #camera-preview {
-            width: 100%;
-            border-radius: 15px;
-            background: #000;
-            transform: scaleX(-1);
-            transition: filter 0.3s ease;
-        }
-
-        #photo-canvas {
+        #photoCanvas {
+            max-width: 100%;
+            height: auto;
+            border-radius: 0;
             display: none;
+            margin: 1rem auto;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            border: 15px solid white; /* Khung trắng bao quanh */
         }
 
-        .filter-btn {
-            padding: 6px 12px;
-            border-radius: 15px;
-            font-size: 12px;
-            background: #f0f0f0;
-            transition: all 0.2s;
-            border: 1px solid #ddd;
+        @keyframes fall {
+            0% { transform: translateY(-10vh) translateX(0) rotate(0); }
+            100% { transform: translateY(110vh) translateX(100px) rotate(720deg); }
         }
 
-        .filter-btn.active {
-            background: #ff4d6d;
-            color: white;
-            border-color: #ff4d6d;
+        .heart-icon {
+            color: #ff4d6d;
+            display: inline-block;
+            animation: pulse 1.5s infinite;
         }
 
-        #music-toggle {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 150;
-            background: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            cursor: pointer;
-            border: 2px solid #ffcad4;
-        }
-
-        .oracle-card {
-            margin-top: 15px;
-            padding: 10px;
-            background: #fff0f3;
-            border-radius: 15px;
-            border: 1px dashed #ff4d6d;
-            font-size: 0.9rem;
-            color: #d63384;
-            display: none;
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
         }
     </style>
 </head>
 <body>
 
-    <!-- Màn hình chào -->
+    <div class="bg-luxury"></div>
+
+    <!-- PHẦN 1: MÀN HÌNH QUÀ TẶNG -->
     <div id="gift-scene">
-        <div class="gift-box" onclick="openGiftScene()">🎁</div>
-        <p class="text-white mt-8 font-bold text-xl animate-pulse">Quà tặng đặc biệt từ E-sky!</p>
-        <p class="text-pink-100 text-sm mt-2 opacity-80">Chạm để mở hành trình hạnh phúc</p>
-    </div>
-
-    <audio id="bgMusic" loop preload="auto">
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
-    </audio>
-
-    <div id="music-toggle" onclick="toggleMusic()">
-        <span id="music-icon">🎵</span>
-    </div>
-
-    <!-- Nội dung chính -->
-    <div id="main-content">
-        <div id="effect-container" class="fixed inset-0 pointer-events-none"></div>
-
-        <div class="glass-card">
-            <div class="mb-2">
-                <span class="text-pink-400 font-bold tracking-[0.4em] uppercase text-xs">E-sky Celebration</span>
-            </div>
-            
-            <h1 id="title" class="fade-in-text text-4xl md:text-5xl font-bold text-pink-700 mb-6">
-                Chúc Mừng Ngày <br>
-                <span class="text-pink-500 italic text-5xl md:text-6xl" style="font-family: 'Dancing Script', cursive;">Quốc tế Phụ nữ 8/3</span>
-            </h1>
-
-            <div class="space-y-4 text-gray-800 text-lg md:text-xl italic leading-relaxed px-4">
-                <p id="wish-1" class="fade-in-text">Gửi lời chúc yêu thương nhất tới phái đẹp tại <strong class="text-pink-600 not-italic">E-sky</strong>.</p>
-                <p id="wish-2" class="fade-in-text">Chúc bạn luôn rạng rỡ, tự tin và tràn đầy năng lượng tích cực.</p>
-                <p id="wish-3" class="fade-in-text">Hãy luôn là phiên bản tuyệt vời nhất của chính mình!</p>
-            </div>
-
-            <button class="btn-gift" onclick="startLuckyGift()">Mở quà & Nhận thông điệp 🎡</button>
-            
-            <div class="mt-8 pt-4 border-t border-pink-100">
-                <p class="text-xs text-pink-400 font-bold tracking-widest uppercase mb-1">With Heart</p>
-                <p class="text-2xl font-bold text-pink-700">E-sky Team</p>
-            </div>
+        <div class="gift-box animate__animated animate__tada animate__infinite" onclick="openInitialGift()">🎁</div>
+        <div class="text-white mt-12 text-center animate__animated animate__fadeInUp">
+            <h2 class="text-4xl font-bold tracking-widest mb-4" style="font-family: 'Playfair Display', serif;">CHÀO MỪNG NGÀY QUỐC TẾ PHỤ NỮ 8/3</h2>
+            <p class="text-xl opacity-90 italic">Món quà đặc biệt đang chờ đợi bạn tại E-sky</p>
         </div>
     </div>
 
-    <!-- Modal quà tặng -->
-    <div id="gift-modal">
-        <div class="modal-content">
-            <h2 id="modal-title" class="text-2xl font-bold text-pink-600 mb-2">Đang chọn quà...</h2>
-            <div id="slot-container" class="text-6xl my-4 animate-bounce">🔮</div>
+    <!-- PHẦN 2: TRANG CHỦ -->
+    <div id="welcome-content" class="hidden w-full flex justify-center items-center min-h-screen">
+        <div class="glass-card animate__animated animate__fadeIn text-center relative overflow-hidden">
+            <!-- Trang trí góc -->
+            <div class="absolute -top-10 -left-10 w-40 h-40 bg-pink-200 rounded-full blur-3xl opacity-50"></div>
+            <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-pink-300 rounded-full blur-3xl opacity-50"></div>
 
-            <div id="reward-info" style="display: none;">
-                <div id="reward-icon" class="text-6xl mb-4">💐</div>
-                <p id="reward-text" class="text-gray-700 mb-4 italic font-medium"></p>
+            <h3 class="text-pink-500 font-bold tracking-widest text-sm mb-4 uppercase">Trung tâm Ngoại ngữ và Tin học E-sky</h3>
+            <h1 class="text-5xl font-bold text-gray-800 mb-6" style="font-family: 'Playfair Display', serif;">Tôn Vinh Phái Đẹp</h1>
+            
+            <div class="flex justify-center mb-8">
+                <div class="w-24 h-1 bg-pink-500 rounded-full"></div>
+            </div>
+
+            <p class="text-gray-600 text-xl mb-12 italic leading-relaxed px-6">
+                "Vì phụ nữ là để yêu thương. </br> Hãy để E-sky gửi tặng bạn những thông điệp ngọt ngào nhất trong ngày hôm nay."
+            </p>
+
+            <button class="btn-luxury" onclick="showWishModal()">NHẬN LỜI CHÚC TỪ TRÁI TIM <span class="heart-icon">❤️</span></button>
+            
+            <p class="mt-16 text-gray-400 font-bold tracking-[0.3em] text-xs">E-SKY CENTER 2026</p>
+        </div>
+    </div>
+
+    <!-- PHẦN 3: MODAL LỜI CHÚC (BẤT NGỜ) -->
+    <div id="wish-modal" class="overlay-modal">
+        <div class="bg-white p-12 rounded-[3rem] max-w-xl w-full text-center shadow-2xl animate__animated animate__zoomInDown relative">
+            <div class="absolute -top-12 left-1/2 -translate-x-1/2 text-7xl">💌</div>
+            
+            <h2 class="text-3xl font-bold text-gray-800 mb-6 mt-4" style="font-family: 'Playfair Display', serif;">Lời Chúc Dành Riêng Cho Bạn</h2>
+            
+            <div class="py-10 px-6 bg-gradient-to-r from-pink-50 to-white border-y-2 border-pink-100 mb-8">
+                <p id="random-wish" class="text-pink-600 font-bold text-3xl italic leading-snug" style="font-family: 'Dancing Script', cursive;"></p>
+            </div>
+
+            <button class="btn-luxury w-full" onclick="goToPhotoStep()">GHI LẠI KHOẢNH KHẮC ĐẸP ✨</button>
+        </div>
+    </div>
+
+    <!-- PHẦN 4: TẠO ẢNH & KẾT THÚC -->
+    <div id="photo-modal" class="overlay-modal">
+        <div class="bg-white p-8 rounded-[2rem] max-w-3xl w-full text-center overflow-y-auto max-h-[90vh]">
+            <div id="final-thankyou" class="hidden animate__animated animate__fadeIn">
+                <div class="text-7xl mb-6">🌸</div>
+                <h2 class="text-4xl font-bold text-pink-600 mb-4" style="font-family: 'Dancing Script', cursive;">Cảm ơn bạn!</h2>
+                <p class="text-gray-600 text-lg mb-8">Ảnh đã được lưu thành công. Chúc bạn một ngày 8/3 thật hạnh phúc và rạng rỡ.</p>
+                <button class="text-pink-500 font-bold underline" onclick="location.reload()">Quay lại trang chính</button>
+            </div>
+
+            <div id="photo-editor">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4" style="font-family: 'Playfair Display', serif;">Studio Ảnh Kỷ Niệm</h2>
+                <p class="text-gray-500 mb-8 italic">Ảnh của bạn sẽ được tinh chỉnh tone màu rạng rỡ nhất</p>
                 
-                <div id="oracle-card" class="oracle-card">
-                    <span class="font-bold block">✨ Thông điệp:</span>
-                    <span id="oracle-text"></span>
+                <input type="file" id="fileInput" accept="image/*" class="hidden" onchange="handleFileUpload(event)">
+                
+                <div id="upload-zone">
+                    <label for="fileInput" class="cursor-pointer border-2 border-dashed border-pink-300 p-16 rounded-3xl block hover:bg-pink-50 transition-all group">
+                        <div class="text-6xl mb-4 group-hover:scale-110 transition-transform">📸</div>
+                        <span class="text-pink-600 font-bold uppercase tracking-widest">Chọn ảnh từ thiết bị của bạn</span>
+                    </label>
                 </div>
 
-                <div class="flex flex-col gap-2 mt-6">
-                    <button class="bg-pink-500 text-white px-6 py-3 rounded-full font-bold shadow-lg" onclick="openCamera()">Selfie Rạng Rỡ 📸</button>
-                    <button class="text-gray-400 text-sm mt-2" onclick="closeModal()">Bỏ qua</button>
+                <div id="ai-status" class="hidden my-8">
+                    <div class="flex items-center justify-center gap-3 text-pink-500 font-bold">
+                        <div class="animate-spin rounded-full h-5 w-5 border-2 border-pink-500 border-t-transparent"></div>
+                        Đang áp dụng bộ lọc Skintone Optimizer...
+                    </div>
+                </div>
+                
+                <canvas id="photoCanvas"></canvas>
+
+                <div id="photo-actions" class="hidden flex flex-col gap-4 mt-8">
+                    <button class="btn-luxury w-full" onclick="downloadPhoto()">LƯU ẢNH & KẾT THÚC 💾</button>
+                    <button class="text-gray-400 text-sm hover:text-gray-600" onclick="resetPhoto()">Chọn lại ảnh khác</button>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Modal Camera Selfie Nâng Cấp -->
-    <div id="camera-modal">
-        <div class="modal-content border-4 border-pink-100">
-            <h2 class="text-xl font-bold text-pink-600 mb-4">Khoảnh khắc 8/3 cùng E-sky</h2>
-            
-            <div class="relative overflow-hidden rounded-xl bg-black aspect-[4/3] shadow-inner">
-                <video id="camera-preview" autoplay playsinline></video>
-                <div id="frame-overlay" class="absolute inset-0 pointer-events-none flex flex-col justify-between p-4 border-[15px] border-pink-300/20">
-                    <div class="flex justify-between items-start">
-                        <div class="bg-white/90 px-3 py-1 rounded-full shadow-sm">
-                            <span class="text-[10px] font-black text-pink-600 tracking-tighter">E-SKY ✨ 8.3</span>
-                        </div>
-                        <span class="text-3xl drop-shadow-md">🌸</span>
-                    </div>
-                    <div class="text-center pb-2">
-                        <p class="text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] font-bold text-lg italic" style="font-family: 'Dancing Script';">Beautiful Women's Day</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Bộ lọc hình ảnh -->
-            <div id="filter-controls" class="flex justify-center gap-2 mt-4 overflow-x-auto pb-2">
-                <button class="filter-btn active" onclick="setFilter('none', this)">Gốc</button>
-                <button class="filter-btn" onclick="setFilter('brightness(1.1) contrast(1.1) saturate(1.2)', this)">Rạng rỡ</button>
-                <button class="filter-btn" onclick="setFilter('sepia(0.3) contrast(1.1) brightness(1.05)', this)">Vintage</button>
-                <button class="filter-btn" onclick="setFilter('grayscale(1) contrast(1.2)', this)">B&W</button>
-                <button class="filter-btn" onclick="setFilter('blur(0.5px) brightness(1.1)', this)">Mịn màng</button>
-            </div>
-
-            <div id="result-container" class="hidden mt-4">
-                <img id="selfie-result" class="rounded-xl shadow-2xl w-full" />
-                <p class="text-xs text-pink-500 mt-2 font-bold animate-pulse">✨ Ảnh đã được gắn khung xinh đẹp! ✨</p>
-            </div>
-
-            <div class="flex justify-center items-center gap-4 mt-6">
-                <button id="capture-btn" class="bg-gradient-to-r from-pink-500 to-rose-500 text-white w-16 h-16 rounded-full shadow-xl flex items-center justify-center border-4 border-white" onclick="takePhoto()">
-                    <span class="text-2xl">📸</span>
-                </button>
-                <button id="download-btn" class="hidden bg-green-500 text-white px-6 py-3 rounded-full font-bold shadow-lg" onclick="downloadPhoto()">💾 Lưu Ảnh Kỷ Niệm</button>
-                <button class="bg-gray-100 text-gray-600 px-6 py-3 rounded-full font-bold" onclick="closeCamera()">Đóng</button>
-            </div>
-        </div>
-    </div>
-
-    <canvas id="photo-canvas"></canvas>
 
     <script>
-        const music = document.getElementById('bgMusic');
-        const gifts = [
-            { icon: '💐', text: 'Bó hoa hạnh phúc rạng ngời!' },
-            { icon: '💆‍♀️', text: 'Ngày thư giãn tuyệt vời cho bạn!' },
-            { icon: '☕', text: 'Tận hưởng trà chiều ngọt ngào!' },
-            { icon: '🌟', text: 'Luôn tỏa sáng rực rỡ nhé!' }
-        ];
-        const messages = [
-            "Bạn là đóa hoa rạng rỡ nhất ngày hôm nay!",
-            "Cả thế giới trở nên đẹp hơn nhờ nụ cười của bạn.",
-            "Tự tin và kiêu hãnh - Đó là vẻ đẹp của phụ nữ E-sky.",
-            "Chúc bạn một ngày 8/3 ngập tràn sự yêu chiều."
+        const wishes = [
+            "Chúc bạn mãi rạng rỡ như đóa hồng tâm hồn!",
+            "Hạnh phúc trọn vẹn và nụ cười luôn nở trên môi.",
+            "Tự tin tỏa sáng chất riêng của chính mình nhé!",
+            "Một ngày 8/3 ngập tràn quà và những lời yêu thương.",
+            "Trẻ trung, xinh đẹp và vạn sự như ý.",
+            "Chúc bạn luôn là bông hoa đẹp nhất trong vườn đời.",
+            "Thành công và viên mãn trên mọi nẻo đường.",
+            "Luôn yêu đời, yêu người và yêu chính bản thân mình."
         ];
 
-        function openGiftScene() {
-            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-            music.play().catch(() => {});
-            document.getElementById('music-toggle').style.display = 'flex';
+        function openInitialGift() {
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#ff4d6d', '#ffffff', '#ffb7c5'] });
+            document.getElementById('gift-scene').style.transform = 'scale(1.5)';
             document.getElementById('gift-scene').style.opacity = '0';
             setTimeout(() => {
                 document.getElementById('gift-scene').style.display = 'none';
-                document.getElementById('main-content').style.display = 'flex';
-                setTimeout(() => {
-                    document.getElementById('main-content').style.opacity = '1';
-                    ['title', 'wish-1', 'wish-2', 'wish-3'].forEach((id, i) => {
-                        setTimeout(() => document.getElementById(id).classList.add('visible'), i * 800);
-                    });
-                }, 100);
-            }, 800);
+                document.getElementById('welcome-content').classList.remove('hidden');
+                document.getElementById('welcome-content').classList.add('flex');
+            }, 1000);
         }
 
-        function toggleMusic() {
-            if (music.paused) { music.play(); document.getElementById('music-icon').innerText = '🎵'; }
-            else { music.pause(); document.getElementById('music-icon').innerText = '🔇'; }
-        }
-
-        function startLuckyGift() {
-            const modal = document.getElementById('gift-modal');
-            modal.style.display = 'flex';
-            document.getElementById('reward-info').style.display = 'none';
-            document.getElementById('slot-container').style.display = 'block';
+        function showWishModal() {
+            const randomWish = wishes[Math.floor(Math.random() * wishes.length)];
+            document.getElementById('random-wish').innerText = `"${randomWish}"`;
+            document.getElementById('wish-modal').style.display = 'flex';
             
-            setTimeout(() => {
-                const gift = gifts[Math.floor(Math.random() * gifts.length)];
-                const msg = messages[Math.floor(Math.random() * messages.length)];
-                document.getElementById('slot-container').style.display = 'none';
-                document.getElementById('reward-info').style.display = 'block';
-                document.getElementById('reward-icon').innerText = gift.icon;
-                document.getElementById('reward-text').innerText = gift.text;
-                document.getElementById('oracle-text').innerText = msg;
-                document.getElementById('oracle-card').style.display = 'block';
-                confetti({ particleCount: 100, spread: 60 });
-            }, 2000);
+            // Hiệu ứng pháo hoa và hoa đào tung tóe khi hiện lời chúc
+            const end = Date.now() + 2 * 1000;
+            (function frame() {
+              confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#ffb7c5', '#ff4d6d'] });
+              confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#ffb7c5', '#ff4d6d'] });
+              if (Date.now() < end) requestAnimationFrame(frame);
+            }());
+
+            // Tạo hoa đào bay cực mạnh
+            for(let i=0; i<30; i++) setTimeout(createPetal, i * 50);
         }
 
-        function closeModal() { document.getElementById('gift-modal').style.display = 'none'; }
-
-        // Camera & Filter Logic
-        let stream;
-        let currentFilter = 'none';
-
-        function setFilter(filter, btn) {
-            currentFilter = filter;
-            document.getElementById('camera-preview').style.filter = filter;
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+        function goToPhotoStep() {
+            document.getElementById('wish-modal').style.display = 'none';
+            document.getElementById('photo-modal').style.display = 'flex';
         }
 
-        async function openCamera() {
-            closeModal();
-            document.getElementById('camera-modal').style.display = 'flex';
-            document.getElementById('camera-preview').classList.remove('hidden');
-            document.getElementById('filter-controls').classList.remove('hidden');
-            document.getElementById('result-container').classList.add('hidden');
-            document.getElementById('capture-btn').classList.remove('hidden');
-            document.getElementById('download-btn').classList.add('hidden');
-            
-            try {
-                stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user', width: 1280, height: 720 }, audio: false });
-                document.getElementById('camera-preview').srcObject = stream;
-            } catch (err) {
-                alert("Không thể truy cập camera. Vui lòng cấp quyền!");
-                closeCamera();
-            }
+        function createPetal() {
+            const petal = document.createElement('div');
+            petal.className = 'petal';
+            const size = Math.random() * 15 + 10 + 'px';
+            petal.style.width = size;
+            petal.style.height = size;
+            petal.style.left = Math.random() * 100 + 'vw';
+            petal.style.top = '-5vh';
+            const duration = Math.random() * 4 + 4 + 's';
+            petal.style.animation = `fall ${duration} linear forwards`;
+            const colors = ['#ffb7c5', '#ffc0cb', '#fae1e5', '#ff91a4'];
+            petal.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            document.body.appendChild(petal);
+            setTimeout(() => petal.remove(), 8000);
+        }
+        setInterval(createPetal, 500);
+
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            document.getElementById('upload-zone').style.display = 'none';
+            document.getElementById('ai-status').classList.remove('hidden');
+
+            const reader = new FileReader();
+            reader.onload = e => {
+                const img = new Image();
+                img.onload = () => {
+                    setTimeout(() => {
+                        document.getElementById('ai-status').classList.add('hidden');
+                        renderPhoto(img);
+                    }, 1500);
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
         }
 
-        function takePhoto() {
-            const video = document.getElementById('camera-preview');
-            const canvas = document.getElementById('photo-canvas');
+        function renderPhoto(userImg) {
+            const canvas = document.getElementById('photoCanvas');
             const ctx = canvas.getContext('2d');
+            canvas.width = 1200; canvas.height = 1600;
 
-            // Thiết kế canvas chất lượng cao
-            canvas.width = 1080;
-            canvas.height = 1080; 
+            const margin = 80;
+            const photoWidth = canvas.width - (margin * 2);
+            const photoHeight = 1200; 
 
-            // Vẽ nền đen trước
-            ctx.fillStyle = "#000";
+            // NỀN TRẮNG SANG TRỌNG
+            ctx.fillStyle = "white";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Chụp ảnh từ video (lật gương & áp dụng filter)
             ctx.save();
-            if (currentFilter !== 'none') ctx.filter = currentFilter;
-            ctx.translate(canvas.width, 0);
-            ctx.scale(-1, 1);
+            ctx.beginPath();
+            ctx.rect(margin, margin, photoWidth, photoHeight);
+            ctx.clip();
             
-            // Cắt video vào khung vuông trung tâm
-            const size = Math.min(video.videoWidth, video.videoHeight);
-            const sx = (video.videoWidth - size) / 2;
-            const sy = (video.videoHeight - size) / 2;
-            ctx.drawImage(video, sx, sy, size, size, 0, 0, canvas.width, canvas.height);
+            const scale = Math.max(photoWidth / userImg.width, photoHeight / userImg.height);
+            const x = (canvas.width / 2) - (userImg.width / 2) * scale;
+            const y = (margin + photoHeight / 2) - (userImg.height / 2) * scale;
+            
+            // BỘ LỌC LÀM ĐẸP DA (SKINTONE OPTIMIZER)
+            ctx.filter = 'brightness(1.12) contrast(1.03) saturate(1.1)';
+            ctx.drawImage(userImg, x, y, userImg.width * scale, userImg.height * scale);
+            
+            // Layer phủ mịn
+            ctx.globalAlpha = 0.1; 
+            ctx.fillStyle = "#ffe5ec"; 
+            ctx.fillRect(margin, margin, photoWidth, photoHeight);
             ctx.restore();
 
-            // VẼ KHUNG HÌNH NGHỆ THUẬT
-            // 1. Viền trang trí ngoài
-            ctx.strokeStyle = "rgba(255, 182, 193, 0.8)";
-            ctx.lineWidth = 40;
-            ctx.strokeRect(20, 20, canvas.width - 40, canvas.height - 40);
-
-            // 2. Góc trang trí (Hoa giả định bằng vẽ)
-            ctx.fillStyle = "rgba(255, 255, 255, 0.9)";
-            ctx.beginPath();
-            ctx.arc(60, 60, 30, 0, Math.PI * 2);
-            ctx.arc(canvas.width - 60, 60, 30, 0, Math.PI * 2);
-            ctx.fill();
-
-            // 3. Logo & Text E-sky
-            ctx.fillStyle = "#ff4d6d";
-            ctx.font = "bold 45px Arial";
-            ctx.textAlign = "left";
-            ctx.fillText("E-SKY", 80, 100);
-            
-            ctx.fillStyle = "rgba(255,255,255,0.9)";
-            ctx.font = "bold 30px Arial";
-            ctx.fillText("CELEBRATION 8.3", 80, 140);
-
-            // 4. Lời chúc phía dưới
+            // CHỮ DƯỚI KHUNG
             ctx.textAlign = "center";
-            ctx.fillStyle = "white";
-            ctx.font = "italic 70px 'Dancing Script', cursive";
-            ctx.shadowColor = "rgba(0,0,0,0.5)";
-            ctx.shadowBlur = 10;
-            ctx.fillText("Rạng rỡ như đóa hoa xuân", canvas.width / 2, canvas.height - 100);
-            
-            ctx.shadowBlur = 0;
-            ctx.font = "bold 30px Arial";
-            ctx.fillText("HAPPY WOMEN'S DAY", canvas.width / 2, canvas.height - 50);
+            const ty = margin + photoHeight + 100;
 
-            // 5. Thêm các cánh hoa nhỏ ngẫu nhiên
-            for(let i=0; i<10; i++) {
-                ctx.font = "30px Arial";
-                ctx.fillText("🌸", Math.random()*canvas.width, Math.random()*canvas.height);
-            }
+            ctx.fillStyle = "#333";
+            ctx.font = "bold 35px Arial";
+            ctx.letterSpacing = "8px";
+            ctx.fillText("E-SKY CENTER 2026", canvas.width / 2, ty);
 
-            // Hiển thị kết quả
-            const dataUrl = canvas.toDataURL('image/png');
-            document.getElementById('selfie-result').src = dataUrl;
-            document.getElementById('camera-preview').classList.add('hidden');
-            document.getElementById('filter-controls').classList.add('hidden');
-            document.getElementById('result-container').classList.remove('hidden');
-            document.getElementById('capture-btn').classList.add('hidden');
-            document.getElementById('download-btn').classList.remove('hidden');
+            ctx.fillStyle = "#f72585";
+            ctx.font = "700 85px 'Dancing Script', cursive";
+            ctx.fillText("Happy Women's Day 8/3", canvas.width / 2, ty + 120);
+
+            ctx.fillStyle = "#777";
+            ctx.font = "italic 32px 'Times New Roman', serif";
+            ctx.fillText("Tỏa sáng rạng rỡ, trọn vẹn yêu thương", canvas.width / 2, ty + 200);
+
+            canvas.style.display = 'block';
+            document.getElementById('photo-actions').classList.remove('hidden');
             
-            if (stream) stream.getTracks().forEach(track => track.stop());
-            confetti({ particleCount: 100, spread: 80, origin: { y: 0.8 } });
+            // Pháo hoa ăn mừng khi hiện ảnh
+            confetti({ particleCount: 100, spread: 70, origin: { y: 0.8 } });
         }
 
         function downloadPhoto() {
+            const canvas = document.getElementById('photoCanvas');
             const link = document.createElement('a');
-            link.download = 'Esky-8-3-KhoanhKhacDep.png';
-            link.href = document.getElementById('selfie-result').src;
+            link.download = `Esky_Memory_8_3.png`;
+            link.href = canvas.toDataURL('image/png', 1.0); 
             link.click();
+
+            // HIỆN THỊ KẾT THÚC
+            document.getElementById('photo-editor').classList.add('hidden');
+            document.getElementById('final-thankyou').classList.remove('hidden');
+            
+            // Pháo hoa kết thúc rực rỡ
+            const end = Date.now() + 3 * 1000;
+            (function frame() {
+                confetti({ particleCount: 2, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#f72585', '#ff85a1'] });
+                confetti({ particleCount: 2, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#f72585', '#ff85a1'] });
+                if (Date.now() < end) requestAnimationFrame(frame);
+            }());
         }
 
-        function closeCamera() {
-            if (stream) stream.getTracks().forEach(track => track.stop());
-            document.getElementById('camera-modal').style.display = 'none';
+        function resetPhoto() {
+            document.getElementById('upload-zone').style.display = 'block';
+            document.getElementById('photoCanvas').style.display = 'none';
+            document.getElementById('photo-actions').classList.add('hidden');
+            document.getElementById('fileInput').value = '';
         }
-
-        function createFallingItem() {
-            const items = ['🌸', '💖', '✨', '🌹'];
-            const item = document.createElement('div');
-            item.className = 'absolute pointer-events-none text-xl';
-            item.innerText = items[Math.floor(Math.random() * items.length)];
-            item.style.left = Math.random() * 100 + 'vw';
-            item.style.top = '-20px';
-            item.animate([
-                { transform: 'translateY(0) rotate(0deg)', opacity: 0.8 },
-                { transform: `translateY(110vh) rotate(360deg)`, opacity: 0 }
-            ], { duration: 6000, easing: 'linear' });
-            document.getElementById('effect-container').appendChild(item);
-            setTimeout(() => item.remove(), 6000);
-        }
-        setInterval(createFallingItem, 500);
     </script>
 </body>
 </html>
