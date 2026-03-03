@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chúc Mừng Ngày 8/3 - E-sky</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            background: linear-gradient(135deg, #fff0f3 0%, #ffdde1 100%);
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #gift-scene {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle, #ff8fa3 0%, #ff4d6d 100%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 1s cubic-bezier(0.7, 0, 0.3, 1);
+        }
+
+        .gift-box {
+            font-size: 100px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            animation: bounceGift 2s infinite;
+        }
+
+        @keyframes bounceGift {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0) rotate(0);}
+            40% {transform: translateY(-30px) rotate(10deg);}
+            60% {transform: translateY(-15px) rotate(-10deg);}
+        }
+
+        #main-content {
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 1s ease-out;
+            display: none;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .fade-in-text {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease-out;
+        }
+
+        .fade-in-text.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 2px solid #ffcad4;
+            box-shadow: 0 20px 60px rgba(255, 154, 162, 0.3);
+            border-radius: 40px;
+            padding: 2.5rem 1.5rem;
+            max-width: 600px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+        }
+
+        .btn-gift {
+            background: linear-gradient(to right, #ff4d6d, #ff758f);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-weight: bold;
+            box-shadow: 0 5px 20px rgba(255, 77, 109, 0.4);
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-block;
+            margin-top: 20px;
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        #gift-modal, #camera-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 30px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            animation: popUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popUp {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        #camera-preview {
+            width: 100%;
+            border-radius: 20px;
+            background: #000;
+            transform: scaleX(-1); /* Mirror effect */
+        }
+
+        #photo-canvas {
+            display: none;
+        }
+
+        #music-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 150;
+            background: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+            border: 2px solid #ffcad4;
+        }
+
+        .oracle-card {
+            margin-top: 15px;
+            padding: 10px;
+            background: #fff0f3;
+            border-radius: 15px;
+            border: 1px dashed #ff4d6d;
+            font-size: 0.9rem;
+            color: #d63384;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Màn hình chào -->
+    <div id="gift-scene">
+        <div class="gift-box" onclick="openGiftScene()">🎁</div>
+        <p class="text-white mt-8 font-bold text-xl animate-pulse">Quà tặng đặc biệt từ E-sky!</p>
+        <p class="text-pink-100 text-sm mt-2 opacity-80">Chạm để mở hành trình hạnh phúc</p>
+    </div>
+
+    <!-- Nhạc nền -->
+    <audio id="bgMusic" loop preload="auto">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="music-toggle" onclick="toggleMusic()">
+        <span id="music-icon">🎵</span>
+    </div>
+
+    <!-- Nội dung chính -->
+    <div id="main-content">
+        <div id="effect-container" class="fixed inset-0 pointer-events-none"></div>
+
+        <div class="glass-card">
+            <div class="mb-2">
+                <span class="text-pink-400 font-bold tracking-[0.4em] uppercase text-xs">E-sky Celebration</span>
+            </div>
+            
+            <h1 id="title" class="fade-in-text text-4xl md:text-5xl font-bold text-pink-700 mb-6">
+                Chúc Mừng Ngày <br>
+                <span class="text-pink-500 italic text-5xl md:text-6xl" style="font-family: 'Dancing Script', cursive;">Quốc tế Phụ nữ 8/3</span>
+            </h1>
+
+            <div class="space-y-4 text-gray-800 text-lg md:text-xl italic leading-relaxed px-4">
+                <p id="wish-1" class="fade-in-text">Gửi lời chúc yêu thương nhất tới phái đẹp tại <strong class="text-pink-600 not-italic">E-sky</strong>.</p>
+                <p id="wish-2" class="fade-in-text">Chúc bạn luôn rạng rỡ, tự tin và tràn đầy năng lượng tích cực.</p>
+                <p id="wish-3" class="fade-in-text">Hãy luôn là phiên bản tuyệt vời nhất của chính mình!</p>
+            </div>
+
+            <button class="btn-gift" onclick="startLuckyGift()">Mở quà & Nhận thông điệp 🎡</button>
+            
+            <div class="mt-8 pt-4 border-t border-pink-100">
+                <p class="text-xs text-pink-400 font-bold tracking-widest uppercase mb-1">With Heart</p>
+                <p class="text-2xl font-bold text-pink-700">E-sky Team</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal quà tặng -->
+    <div id="gift-modal">
+        <div class="modal-content">
+            <h2 id="modal-title" class="text-2xl font-bold text-pink-600 mb-2">Đang chọn quà...</h2>
+            <div id="slot-container" class="text-6xl my-4 animate-bounce">🔮</div>
+
+            <div id="reward-info" style="display: none;">
+                <div id="reward-icon" class="text-6xl mb-4">💐</div>
+                <p id="reward-text" class="text-gray-700 mb-4 italic font-medium"></p>
+                
+                <div id="oracle-card" class="oracle-card">
+                    <span class="font-bold block">✨ Thông điệp:</span>
+                    <span id="oracle-text"></span>
+                </div>
+
+                <div class="flex flex-col gap-2 mt-6">
+                    <button class="bg-pink-500 text-white px-6 py-3 rounded-full font-bold" onclick="openCamera()">Chụp Selfie cùng khung E-sky 📸</button>
+                    <button class="text-gray-400 text-sm" onclick="closeModal()">Bỏ qua</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Camera Selfie -->
+    <div id="camera-modal">
+        <div class="modal-content bg-pink-50">
+            <h2 class="text-xl font-bold text-pink-600 mb-4">Selfie kỷ niệm 8/3 cùng E-sky</h2>
+            
+            <div class="relative overflow-hidden rounded-2xl border-4 border-white shadow-lg">
+                <video id="camera-preview" autoplay playsinline></video>
+                <!-- Khung hình overlay giả định -->
+                <div id="frame-overlay" class="absolute inset-0 pointer-events-none flex flex-col justify-between p-4 border-[12px] border-pink-200/30">
+                   <div class="flex justify-between items-start">
+                       <span class="bg-white/80 px-2 py-1 rounded text-[10px] font-bold text-pink-600">E-SKY 8/3</span>
+                       <span class="text-2xl">🌸</span>
+                   </div>
+                   <div class="text-center">
+                       <p class="text-white drop-shadow-lg font-bold text-sm" style="font-family: 'Dancing Script';">Rạng rỡ mỗi ngày</p>
+                   </div>
+                </div>
+            </div>
+
+            <div id="result-container" class="hidden mt-4">
+                <img id="selfie-result" class="rounded-xl shadow-md w-full" />
+                <p class="text-xs text-pink-400 mt-2">Nhấn giữ ảnh hoặc bấm nút dưới để lưu!</p>
+            </div>
+
+            <div class="flex justify-center gap-4 mt-6">
+                <button id="capture-btn" class="bg-pink-500 text-white p-4 rounded-full shadow-lg" onclick="takePhoto()">📸 Chụp ảnh</button>
+                <button id="download-btn" class="hidden bg-green-500 text-white px-6 py-2 rounded-full font-bold" onclick="downloadPhoto()">💾 Tải ảnh</button>
+                <button class="bg-gray-200 text-gray-700 px-6 py-2 rounded-full font-bold" onclick="closeCamera()">Đóng</button>
+            </div>
+        </div>
+    </div>
+
+    <canvas id="photo-canvas"></canvas>
+
+    <script>
+        const music = document.getElementById('bgMusic');
+        const gifts = [
+            { icon: '💐', text: 'Bó hoa hạnh phúc rạng ngời!' },
+            { icon: '💆‍♀️', text: 'Ngày thư giãn tuyệt vời cho bạn!' },
+            { icon: '☕', text: 'Tận hưởng trà chiều ngọt ngào!' },
+            { icon: '🌟', text: 'Luôn tỏa sáng rực rỡ nhé!' }
+        ];
+        const messages = [
+            "Bạn là điều tuyệt vời nhất ngày hôm nay!",
+            "Hãy luôn mỉm cười, vì nụ cười bạn rất đẹp.",
+            "Tự tin là trang sức quý giá nhất của phụ nữ.",
+            "E-sky chúc bạn một ngày 8/3 ngập tràn tình yêu."
+        ];
+
+        function openGiftScene() {
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+            music.play().catch(() => {});
+            document.getElementById('music-toggle').style.display = 'flex';
+            document.getElementById('gift-scene').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('gift-scene').style.display = 'none';
+                document.getElementById('main-content').style.display = 'flex';
+                setTimeout(() => {
+                    document.getElementById('main-content').style.opacity = '1';
+                    ['title', 'wish-1', 'wish-2', 'wish-3'].forEach((id, i) => {
+                        setTimeout(() => document.getElementById(id).classList.add('visible'), i * 800);
+                    });
+                }, 100);
+            }, 800);
+        }
+
+        function toggleMusic() {
+            if (music.paused) { music.play(); document.getElementById('music-icon').innerText = '🎵'; }
+            else { music.pause(); document.getElementById('music-icon').innerText = '🔇'; }
+        }
+
+        function startLuckyGift() {
+            const modal = document.getElementById('gift-modal');
+            modal.style.display = 'flex';
+            document.getElementById('reward-info').style.display = 'none';
+            document.getElementById('slot-container').style.display = 'block';
+            
+            setTimeout(() => {
+                const gift = gifts[Math.floor(Math.random() * gifts.length)];
+                const msg = messages[Math.floor(Math.random() * messages.length)];
+                document.getElementById('slot-container').style.display = 'none';
+                document.getElementById('reward-info').style.display = 'block';
+                document.getElementById('reward-icon').innerText = gift.icon;
+                document.getElementById('reward-text').innerText = gift.text;
+                document.getElementById('oracle-text').innerText = msg;
+                document.getElementById('oracle-card').style.display = 'block';
+                confetti({ particleCount: 100, spread: 60 });
+            }, 2000);
+        }
+
+        function closeModal() { document.getElementById('gift-modal').style.display = 'none'; }
+
+        // Camera Logic
+        let stream;
+        async function openCamera() {
+            closeModal();
+            document.getElementById('camera-modal').style.display = 'flex';
+            document.getElementById('camera-preview').classList.remove('hidden');
+            document.getElementById('result-container').classList.add('hidden');
+            document.getElementById('capture-btn').classList.remove('hidden');
+            document.getElementById('download-btn').classList.add('hidden');
+            
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: false });
+                document.getElementById('camera-preview').srcObject = stream;
+            } catch (err) {
+                alert("Không thể truy cập camera. Vui lòng cấp quyền!");
+                closeCamera();
+            }
+        }
+
+        function takePhoto() {
+            const video = document.getElementById('camera-preview');
+            const canvas = document.getElementById('photo-canvas');
+            const ctx = canvas.getContext('2d');
+
+            canvas.width = 640;
+            canvas.height = 480;
+
+            // Chụp ảnh từ video (lật gương)
+            ctx.save();
+            ctx.translate(canvas.width, 0);
+            ctx.scale(-1, 1);
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            ctx.restore();
+
+            // Vẽ khung hình (Frame)
+            ctx.strokeStyle = "rgba(255, 182, 193, 0.5)";
+            ctx.lineWidth = 30;
+            ctx.strokeRect(15, 15, canvas.width - 30, canvas.height - 30);
+
+            // Vẽ Logo E-sky & Text
+            ctx.fillStyle = "#ff4d6d";
+            ctx.font = "bold 24px Arial";
+            ctx.fillText("E-SKY CELEBRATION", 40, 60);
+            
+            ctx.font = "italic 40px 'Dancing Script', cursive";
+            ctx.textAlign = "center";
+            ctx.fillText("Chúc mừng 8/3 rạng rỡ", canvas.width / 2, canvas.height - 60);
+
+            // Hiển thị kết quả
+            const dataUrl = canvas.toDataURL('image/png');
+            document.getElementById('selfie-result').src = dataUrl;
+            document.getElementById('camera-preview').classList.add('hidden');
+            document.getElementById('result-container').classList.remove('hidden');
+            document.getElementById('capture-btn').classList.add('hidden');
+            document.getElementById('download-btn').classList.remove('hidden');
+            
+            if (stream) stream.getTracks().forEach(track => track.stop());
+            confetti({ particleCount: 50, spread: 50 });
+        }
+
+        function downloadPhoto() {
+            const link = document.createElement('a');
+            link.download = 'Esky-8-3-Selfie.png';
+            link.href = document.getElementById('selfie-result').src;
+            link.click();
+        }
+
+        function closeCamera() {
+            if (stream) stream.getTracks().forEach(track => track.stop());
+            document.getElementById('camera-modal').style.display = 'none';
+        }
+
+        function createFallingItem() {
+            const items = ['🌸', '💖', '✨'];
+            const item = document.createElement('div');
+            item.className = 'absolute pointer-events-none text-xl';
+            item.innerText = items[Math.floor(Math.random() * items.length)];
+            item.style.left = Math.random() * 100 + 'vw';
+            item.style.top = '-20px';
+            item.animate([
+                { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
+                { transform: `translateY(110vh) rotate(360deg)`, opacity: 0 }
+            ], { duration: 5000, easing: 'linear' });
+            document.getElementById('effect-container').appendChild(item);
+            setTimeout(() => item.remove(), 5000);
+        }
+        setInterval(createFallingItem, 600);
+    </script>
+</body>
+</html>
